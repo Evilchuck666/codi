@@ -1,109 +1,111 @@
 /*
- * Stack.h
- *
- *  Created on: 10 de jun. de 2016
- *      Author: evilchuck
- */
+* Stack.h
+*
+*  Created on: 10 de jun. de 2016
+*      Author: EvilChuck
+*/
 
 #ifndef STACK_H_
 #define STACK_H_
+
 #include "Card.h"
 #include <ostream>
+
 using namespace std;
 
-// DESCRIPTION:	Estructura básica de datos, que va añadiendo
-//				o quitando cartas del montón (tipo LIFO; Last In First Out)
+// DESCRIPTION: Basic structure data of cards, you can push or pull
+//              cards from the top (LIFO type; Last In First Out)
 
-// INVARIANT:	m_length >= 0 y m_top debe cumplir su INVARIANTE
+// INVARIANT: m_length >= 0 and m_top must agree its INVARIANT
 
 class Stack {
 
 public:
 
-	// CONSTRUCTORS
+// CONSTRUCTORS
 
-	// PRE:  --
-	// POST: --
-	Stack();
+// PRE: --
+// POST: --
+    Stack();
 
-	// PRE:  --
-	// POST: copia los atributos de s al objeto actual
-	Stack(const Stack &p);
-
-
-	// DESTRUCTOR
-
-	// PRE:  --
-	// POST: m_length = 0 y m_top apunta a NULO
-	virtual ~Stack();
+// PRE: --
+// POST: copies attributes from s to this
+    Stack(const Stack &p);
 
 
-	// GETTERS
+// DESTRUCTOR
 
-	// PRE:  --
-	// POST: devuelve si la pila está vacía
-	bool isEmpty() const;
-
-	// PRE:  --
-	// POST: devuelve el número de cartas acumalada a la pila
-	int length() const;
-
-	// PRE:  --
-	// POST: devuelve la última carta, la que está en la top
-	Card top() const;
-
-	// SETTERS
-
-	// PRE:  --
-	// POST: Añade c a la pila
-	void push(const Card &c);
-
-	// PRE:  --
-	// POST: retira la carta superior de la pila
-	void pop();
-
-	// PRE:  --
-	// POST: hace una copia inversa de s
-	void inverseCopy(Stack s);
-
-	// PRE:  --
-	// POST: borra de la pila todas las cartas
-	void release();
+// PRE: --
+// POST: m_length = 0 and m_top points to NULL
+    virtual ~Stack();
 
 
-	// OPERATORS
+// GETTERS
 
-	// PRE:  --
-	// POST: asigna los atributos de s al objeto actual
-	Stack &operator=(const Stack &s);
+// PRE: --
+// POST: returns if the stack is empty
+    bool isEmpty() const;
 
-	// FLUX OPERATORS
+// PRE: --
+// POST: returns stack length
+    int length() const;
 
-	// PRE:  --
-	// POST: muestra la última carta
-	friend ostream &operator<<(ostream &o, const Stack &s);
+// PRE: --
+// POST: returns the card of the top
+    Card top() const;
+
+// SETTERS
+
+// PRE: --
+// POST: adds c to the stack
+    void push(const Card &c);
+
+// PRE: --
+// POST: pops the top card of the stack
+    void pop();
+
+// PRE: --
+// POST: makes an inverse copy of s
+    void inverseCopy(Stack s);
+
+// PRE: --
+// POST: frees the stack
+    void release();
+
+
+// OPERATORS
+
+// PRE: --
+// POST: sets attributes of s to this
+    Stack &operator=(const Stack &s);
+
+// FLUX OPERATORS
+
+// PRE: --
+// POST: prints the last card
+    friend ostream &operator<<(ostream &o, const Stack &s);
 
 private:
 
-	// INVARIANT:	value debe cumplir la INVARIANTE de Card
-	//				y previous debe apuntar a otro Node válido,
-	//				en caso de ser el último nodo de la pila, apunta a NULL
-	struct Node {
+// INVARIANT: value must agree its Card INVARIANT
+//            and previous must point to another valid Node,
+//            if it is the last Node, then previous points to NULL
+    struct Node {
 
-		Card value;
-		Node *previous;
-	};
+        Card value;
+        Node *previous;
+    };
 
-	// ATTRIBUTES
-	Node *m_top;
+// ATTRIBUTES
+    Node *m_top;
 
-	int m_length;
+    int m_length;
 
-	// PRIVATE METHODS
+// PRIVATE METHODS
 
-	// PRE:  --
-	// POST: hace una copia exacta de s, respetando el orden de los nodos
-	void clone(const Stack &s);
+// PRE: --
+// POST: clones s to this
+    void clone(const Stack &s);
 };
 
 #endif /* STACK_H_ */

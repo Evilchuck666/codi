@@ -2,7 +2,7 @@
  * Deck.cpp
  *
  *  Created on: 10 de jun. de 2016
- *      Author: evilchuck
+ *      Author: EvilChuck
  */
 
 #include <cstdlib>

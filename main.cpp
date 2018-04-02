@@ -9,119 +9,118 @@
 #include <iostream>
 #include "Deck.h"
 #include "Game.h"
+
 using namespace std;
 
-// PRE:  --
-// POST: sem > 0
+// PRE: --
+// POST: seed > 0
 void readSteps(int &seed) {
 
-	do
-	{
-		cout << "ENTRA UNA LLAVOR POSITIVA: ";
-		cin  >> seed;
+    do {
+        cout << "WRITE A POSITIVE INTEGER: ";
+        cin >> seed;
 
-	} while (seed <= 0);
+    } while (seed <= 0);
 }
 
-// PRE:  --
+// PRE: --
 // POST: open == 1 || open == 2
 void openCards(int &open) {
 
-	do {
+    do {
+        cout << "HOW MANY CARDS DO YOU WANT TO OPEN?" << endl;
+        cout << "1.- ONE BY ONE" << endl;
+        cout << "2.- THREE BY THREE" << endl;
+        cin >> open;
 
-		cout << "QUANTES CARTES VOLS OBRIR?" << endl;
-		cout << "1.- D'UNA EN UNA"           << endl;
-		cout << "2.- DE TRES EN TRES"        << endl;
-		cin  >> open;
+    } while (!(open > 0 && open < 3));
 
-	} while (!(open > 0 && open < 3));
-
-	if (open == 2) open = 3;
+    if (open == 2) open = 3;
 }
 
-// PRE:  --
+// PRE: --
 // POST: --
 void menu(const int &open) {
 
-	cout << "MENU" << endl;
+    cout << "MENU" << endl;
 
-	if (open == 1)
-		cout << "1. OBRIR UNA CARTA (O TORNAR A COMENCAR)" << endl;
-	else
-		cout << "1. OBRIR TRES CARTES (O TORNAR A COMENCAR)" << endl;
+    if (open == 1)
+        cout << "1. OPEN A CARD (OR BEGIN AGAIN)" << endl;
+    else
+        cout << "1. OPEN THREE CARDS (OR BEGIN AGAIN)" << endl;
 
-	cout << "2. POSAR UNA CARTA (MA->TAULER)"          << endl;
-	cout << "3. POSAR UNA CARTA (MA->PILA)"            << endl;
-	cout << "4. MOURE UNA CARTA (TAULER->TAULER)"      << endl;
-	cout << "5. MOURE UNA CARTA (TAULER->PILA)"        << endl;
-	cout << "6. RECUPERAR UNA CARTA (PILA->TAULER)"    << endl;
-	cout << "9. MOSTRAR MENU"                          << endl;
-	cout << "0. ABANDONAR LA PARTIDA"                  << endl;
+    cout << "2. MOVE A CARD (HAND->TABLE)" << endl;
+    cout << "3. MOVE A CARD (HAND->STACK)" << endl;
+    cout << "4. MOVE A CARD (WITHIN TABLE)" << endl;
+    cout << "5. MOVE A CARD (TABLE->STACK)" << endl;
+    cout << "6. RESTORE A CARD (STACK->TABLE)" << endl;
+    cout << "9. SHOW MENU" << endl;
+    cout << "0. EXIT GAME" << endl;
 }
 
 
-// DESCRIPTION: Lee una plantSeed de value positivo, immediatamente pide
-// 				si quieres destapar las cartas de una en una o de tres en tres.
-//				Una vez introducidos estos datos, empieza el juego, mostrandote
-//				primero el estado del tablero y mostrando el menú de opciones.
-//				Si escribimos una opción no mostrada en el menú se
-//				quejará sin realizar acción alguna, en el caso de que le
-//				pidamos una opción legal, intentará realizarla según las reglas
-//				del juego, y nuevamente se quejará en caso de que el movimiento
-//				se considere ilegal.
-//				El juego acaba cuando todas las cartas estan en la montón de
-//				su respectivo palo, o cuando el usuario decide abandonar.
-//				El juego se basa en las reglas básicas del solitario.
+// DESCRIPTION: Reads a positive plantSeed, immediately asks if you want to open
+//              the cards in one by one or three by three.
+//              Once written those values, game begins, showing first the status
+//              of the board and showing the menu.
+//              If you write an undefined option it will give a warning message
+//              without doing any action at all, if we put a legal action instead
+//              the game will try to make that action following the rules
+//              and will show another warning if that action cannot be made.
+//              The game finishes when all cards are set to its respective club,
+//              or when the player abandones the game.
+//              This game is based on the basic rules of the most popular solitaire
+//              or also known as Klondike.
 
 int main() {
 
-	int seed;
-	int open;
+    int seed;
+    int open;
 
-	readSteps(seed);
-	openCards(open);
+    readSteps(seed);
+    openCards(open);
 
-	Deck mainDeck(seed);
+    Deck mainDeck(seed);
 
-	Game mainGame(mainDeck, open);
+    Game mainGame(mainDeck, open);
 
-	cout << mainGame << endl;
-	menu(open);
+    cout << mainGame << endl;
+    menu(open);
 
-	int option;
-	cout << "OPTION: ";
-	cin  >> option;
+    int option;
+    cout << "OPTION: ";
+    cin >> option;
 
-	while (option != 0 && !mainGame.isFinished()) {
+    while (option != 0 && !mainGame.isFinished()) {
 
-		if      (option == 1) mainGame.openCard();
-		else if (option == 2) mainGame.hand2board();
-		else if (option == 3) mainGame.hand2club();
-		else if (option == 4) mainGame.withinBoard();
-		else if (option == 5) mainGame.board2club();
-		else if (option == 6) mainGame.club2board();
-		else if (option == 9) menu(open);
-		else {
+        if (option == 1) mainGame.openCard();
+        else if (option == 2) mainGame.hand2board();
+        else if (option == 3) mainGame.hand2club();
+        else if (option == 4) mainGame.withinBoard();
+        else if (option == 5) mainGame.board2club();
+        else if (option == 6) mainGame.club2board();
+        else if (option == 9) menu(open);
+        else {
 
-			cout << "OPTION NO DEFINIDA " << option << endl;
-			menu(open);
-		}
+            cout << "UNDEFINED OPTION " << option << endl;
+            menu(open);
+        }
 
-		if (option != 9) cout << mainGame << endl;
+        if (option != 9) cout << mainGame << endl;
 
-		if (!mainGame.isFinished()) {
+        if (!mainGame.isFinished()) {
 
-			cout << "OPTION: ";
-			cin  >> option;
-		}
-	}
+            cout << "OPTION: ";
+            cin >> option;
+        }
+    }
 
-	if (!mainGame.isFinished())
-		cout << "PARTIDA ABANDONADA" << endl;
-	else {
-		cout << "PARTIDA GUANYADA AMB " << mainGame.getMoves()    << " JUGADES";
-		cout << " AMB UN TOTAL DE "     << mainGame.getScore() << " PUNTS" << endl;
-	}
+    if (!mainGame.isFinished())
+        cout << "ABANDONED GAME" << endl;
+    else {
+        cout << "YOU WON THE GAME WITH " << mainGame.getMoves() << " MOVES";
+        cout << " AND WITH A SCORE OF " << mainGame.getScore() << " POINTS" << endl;
+    }
 
-	return 0;
+    return 0;
 }

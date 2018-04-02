@@ -1,104 +1,103 @@
 /*
- * Card.h
- *
- *  Created on: 10 de jun. de 2016
- *      Author: evilchuck
- */
+* Card.h
+*
+*  Created on: 10 de jun. de 2016
+*      Author: EvilChuck
+*/
 
 #ifndef CARD_H_
 #define CARD_H_
+
 #include <ostream>
 #include <string>
+
 using namespace std;
 
-// DESCRIPTION:	Clase que guarda el palo y el numero asociado a la carta
-// 				y si está o no isVisible.
+// DESCRIPTION:	Class that saves the club and number of the card
+// 				and if it's visible.
 
-// INVARIANT:	m_club debe tener un value entre 0 i 3 (ambos incluidos)
-// INVARIANT:	m_number debe tener un value entre 0 i 12 (ambos incluidos)
-// INVARIANT:	m_visible debe tener un value booleano
+// INVARIANT: m_club >= 0 && m_club <= 3
+// INVARIANT: m_number >= 0 && m_number <= 12
+// INVARIANT: m_visible must be boolean
 
 class Card {
 
 public:
 
-	// CONSTRUCTORS
+// CONSTRUCTORS
 
-	// PRE:  --
-	// POST: --
-	Card();
+// PRE: --
+// POST: --
+    Card();
 
-	// PRE:  p i n deben de ser valores positivos
-	// POST: --
-	Card(const int &p, const int &n);
-
-
-	// PRE:  --
-	// POST: copia los atributos de c al objeto actual
-	Card(const Card &c);
+// PRE: p and n must be positive integers
+// POST: --
+    Card(const int &p, const int &n);
 
 
-	// GETTERS
-
-	// PRE:  --
-	// POST: devuelve el value de m_club
-	int getClub()   const;
-
-	// PRE:  --
-	// POST: devuelve el value de m_number
-	int getNumber() const;
-
-	// PRE:  --
-	// POST: devuelve el value de m_visible
-	bool isVisible() const;
-
-	// PRE:  --
-	// POST: devuelve los valores de m_number y m_club respectivamente en
-	//       formato string
-	string toString() const;
+// PRE: --
+// POST: copies c attributes to this
+    Card(const Card &c);
 
 
-	// SETTERS
+// GETTERS
 
-	// PRE:  --
-	// POST: cambia el value de m_visible
-	void turn();
+// PRE: --
+// POST: returns m_club
+    int getClub() const;
+
+// PRE: --
+// POST: returns m_number
+    int getNumber() const;
+
+// PRE: --
+// POST: returns m_visible
+    bool isVisible() const;
+
+// PRE: --
+// POST: returns m_club and m_number in a string
+    string toString() const;
 
 
-	// OPERATORS
+// SETTERS
 
-	// PRE:  --
-	// POST: compara dos cartas y devuelve si la
-	//       primera es mayor que la segunda
-	bool operator>(const Card &c) const;
+// PRE: --
+// POST: swaps m_visible boolean
+    void turn();
 
-	// PRE:  --
-	// POST: compara dos cartas y devuelve si la
-	//       primera es menor que la segunda
-	bool operator<(const Card &c) const;
 
-	// PRE:  --
-	// POST: asigna los valores de la carta c al objeto actual
-	Card &operator=(const Card &c);
+// OPERATORS
+
+// PRE: --
+// POST: compares if this is greater than c
+    bool operator>(const Card &c) const;
+
+// PRE: --
+// POST: compares if this is lower than c
+    bool operator<(const Card &c) const;
+
+// PRE: --
+// POST: sets attributes from c to this
+    Card &operator=(const Card &c);
 
 
 private:
 
-	// CONSTANTS
-	static const int _N_CLUBS = 4;
-	static const int _N_NUMBERS = 13;
+// CONSTANTS
+    static const int _N_CLUBS = 4;
+    static const int _N_NUMBERS = 13;
 
-	static const int _CH_COL = 3;
+    static const int _CH_COL = 3;
 
-	static const char _CLUBS[_N_CLUBS];
-	static const char _NUMBERS[_N_NUMBERS];
+    static const char _CLUBS[_N_CLUBS];
+    static const char _NUMBERS[_N_NUMBERS];
 
 
-	// ATTRIBUTES
-	int  m_club;
-	int  m_number;
-	bool m_visible;
-	bool m_colour;
+// ATTRIBUTES
+    int m_club;
+    int m_number;
+    bool m_visible;
+    bool m_colour;
 };
 
 #endif /* CARD_H_ */

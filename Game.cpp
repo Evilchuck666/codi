@@ -2,7 +2,7 @@
  * Game.cpp
  *
  *  Created on: 11 de jun. de 2016
- *      Author: evilchuck
+ *      Author: EvilChuck
  */
 
 #include "Game.h"
@@ -10,17 +10,17 @@
 const int Game::_POINTS[5] = { 2, 5, 10, 15, 25 };
 
 const string Game::_MOVEMENT_MENU[11] = {
-		"A QUINA COLUMNA LA VOLS POSAR: ", "LA CARTA NO ES POT POSAR A LA COLUMNA ",
-		"NO HI HA CAP CARTA PER AGAFAR", "NO ES POT APILAR LA CARTA",
-		"ENTRA LA COLUMNA ORIGEN I LA FILA ORIGEN: ", "ENTRA LA COLUMNA DESTI: ",
-		"LA CARTA NO ES POT MOURE", "ENTRA LA COLUMNA ORIGEN: ",
-		"LA CARTA NO ES POT APILAR", "ENTRA LA PILA: ",
-		"A LA PILA NO HI HA CAP CARTA PER RECUPERAR"
+		"DESTINATION COLUMN: ", "CANNOT MOVE THE CARD TO THE COLUMN ",
+		"THERE'S NO CARD TO CATCH", "CAN'T PUSH THE CARD",
+		"WRITE ORIGIN COLUMN AND ORIGIN ROW: ", "WRITE DESTINATION COLUMN: ",
+		"CAN'T MOVE THE CARD", "WRITE ORIGIN COLUMN: ",
+		"CANNOT PUSH THE CARD", "WRITE THE STACK: ",
+		"THE STACK HAS NO CARD TO RETRIEVE"
 };
 
 const string Game::_STATUS_MENU[9] = {
-		"ESTAT DEL JOC", "JOC EN CURS", " - J:", " P:[", "]",
-		" M:[", "]", "JOC ACABAT", "CARTES DESCARTADES: "
+		"GAME STATUS", "PLAYING GAME", " - M:", " S:[", "]",
+		" H:[", "]", "GAME FINISHED", "DISCARDED CARDS: "
 };
 
 
@@ -336,7 +336,7 @@ ostream &operator<<(ostream &o, const Game &g) {
 		o << g.m_clubs[2].length() << g._SEP << g.m_clubs[3].length();
 		o << g._STATUS_MENU[4] << g._STATUS_MENU[5];
 		o << g.m_hands[0].length() << g._SEP << g.m_hands[1].length();
-		o << g._STATUS_MENU[6] << " " << g.getScore() << " PUNTS" << endl;
+		o << g._STATUS_MENU[6] << " " << g.getScore() << " POINTS" << endl;
 
 	} else
 		o << g._STATUS_MENU[7] << endl;

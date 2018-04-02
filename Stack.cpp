@@ -1,123 +1,123 @@
 /*
- * Stack.cpp
- *
- *  Created on: 10 de jun. de 2016
- *      Author: evilchuck
- */
+* Stack.cpp
+*
+*  Created on: 10 de jun. de 2016
+*      Author: EvilChuck
+*/
 
 #include "Stack.h"
 
 Stack::Stack() {
-	m_top  = NULL;
-	m_length = 0;
+    m_top = NULL;
+    m_length = 0;
 }
 
 Stack::Stack(const Stack &s) {
-	clone(s);
+    clone(s);
 }
 
 Stack::~Stack() {
-	release();
+    release();
 }
 
 bool Stack::isEmpty() const {
-	return m_top == NULL;
+    return m_top == NULL;
 }
 
 int Stack::length() const {
-	return m_length;
+    return m_length;
 }
 
 Card Stack::top() const {
-	return m_top->value;
+    return m_top->value;
 }
 
 void Stack::push(const Card &c) {
 
-	Node *top = new Node;
-	top->value = c;
-	top->previous = m_top;
+    Node *top = new Node;
+    top->value = c;
+    top->previous = m_top;
 
-	m_top = top;
+    m_top = top;
 
-	m_length++;
+    m_length++;
 }
 
 void Stack::pop() {
 
-	m_length--;
-	Node *aux = m_top;
-	m_top = m_top->previous;
-	delete aux;
+    m_length--;
+    Node *aux = m_top;
+    m_top = m_top->previous;
+    delete aux;
 }
 
 void Stack::inverseCopy(Stack s) {
 
-	release();
+    release();
 
-	int max = s.m_length;
-	for (int i = 0; i < max; i++) {
+    int max = s.m_length;
+    for (int i = 0; i < max; i++) {
 
-		Card c = s.top();
+        Card c = s.top();
         c.turn();
-		push(c);
-		s.pop();
-	}
+        push(c);
+        s.pop();
+    }
 }
 
 void Stack::release() {
 
-	while (!isEmpty()) {
+    while (!isEmpty()) {
 
-		pop();
-	}
+        pop();
+    }
 }
 
 Stack &Stack::operator=(const Stack &s) {
 
-	clone(s);
+    clone(s);
 
-	return *this;
+    return *this;
 }
 
 ostream &operator<<(ostream &o, const Stack &s) {
 
-	if (!s.isEmpty())
-		o << s.top().toString();
-	else
-		o << "  ";
+    if (!s.isEmpty())
+        o << s.top().toString();
+    else
+        o << "  ";
 
-	o << " ";
+    o << " ";
 
-	return o;
+    return o;
 }
 
 void Stack::clone(const Stack &s) {
 
-	if (this != &s && !s.isEmpty()) {
+    if (this != &s && !s.isEmpty()) {
 
-		m_length = s.m_length;
+        m_length = s.m_length;
 
-		Node *q   = new Node;
-		Node *p   = s.m_top;
-		Node *ant = q;
+        Node *q = new Node;
+        Node *p = s.m_top;
+        Node *ant = q;
 
-		m_top = ant;
+        m_top = ant;
 
-		q->value = p->value;
-		q->previous   = NULL;
+        q->value = p->value;
+        q->previous = NULL;
 
-		p = p->previous;
+        p = p->previous;
 
-		while (p != NULL) {
+        while (p != NULL) {
 
-			q = new Node;
-			q->value = p->value;
-			q->previous = NULL;
+            q = new Node;
+            q->value = p->value;
+            q->previous = NULL;
 
-			ant->previous = q;
-			ant = q;
-			p = p->previous;
-		}
-	}
+            ant->previous = q;
+            ant = q;
+            p = p->previous;
+        }
+    }
 }

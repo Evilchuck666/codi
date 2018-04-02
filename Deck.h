@@ -1,71 +1,71 @@
 /*
- * Deck.h
- *
- *  Created on: 10 de jun. de 2016
- *      Author: evilchuck
- */
+* Deck.h
+*
+*  Created on: 10 de jun. de 2016
+*      Author: EvilChuck
+*/
 
 #ifndef DECK_H_
 #define DECK_H_
+
 #include "Card.h"
 
-// DESCRIPTION:	Clase que mezcla las 52 cartas de las que se compone un mazo
-//				de cartas sin contar los comodines
+// DESCRIPTION: Class that mixes 52 cards that compounds a deck of cards without jokers
 
-// INVARIANT:	m_cardArray es un vector de 52 cartas
+// INVARIANT: m_cardArray is an array of 52 cards
 
 class Deck {
 
 public:
 
-	// CONSTRUCTORS
+// CONSTRUCTORS
 
-	// PRE:  --
-	// POST: --
-	Deck();
+// PRE: --
+// POST: --
+    Deck();
 
-	// PRE:  sem > 0
-	// POST: --
-	Deck(const int &seed);
+// PRE: seed > 0
+// POST: --
+    Deck(const int &seed);
 
-	// GETTERS
+// GETTERS
 
-	// PRE: index > 0 && index < _LENGTH
-	// POST: devuelve la carta en la posición index de m_cardArray
-	Card getCard(const int &index) const;
+// PRE: index > 0 && index < _LENGTH
+// POST: returns the card at index position of m_cardArray
+    Card getCard(const int &index) const;
 
 private:
 
-	// CONSTANTS
-	static const int _CLUBS    = 4;
-	static const int _NUMBERS  = 13;
-	static const int _LENGTH = 52;
-	static const int _BOARD_CARDS = 28;
-	static const int _HAND_CARDS = 24;
+// CONSTANTS
+    static const int _CLUBS = 4;
+    static const int _NUMBERS = 13;
+    static const int _LENGTH = 52;
+    static const int _BOARD_CARDS = 28;
+    static const int _HAND_CARDS = 24;
 
 
-	// ATTRIBUTES
-	Card m_cardArray[_LENGTH];
+// ATTRIBUTES
+    Card m_cardArray[_LENGTH];
 
 
-	// SETTERS
+// SETTERS
 
-	// PRE:  --
-	// POST: 52 cartas que cumplen su INVARIANTE ordenadas de mayor a menor
-	void initialize();
+// PRE: --
+// POST: m_cardArray is sorted in descendant order
+    void initialize();
 
-	// PRE:  --
-	// POST: 52 cartas que cumplen su INVARIANTE mezcladas de orden
-	void fisherYates();
+// PRE: --
+// POST: the cards are in a random order
+    void fisherYates();
 
 
-	// STATIC CLASS METHODS
-	static void plantSeed(const int &seed);
+// STATIC CLASS METHODS
+    static void plantSeed(const int &seed);
 
-	static int randomizeSeed(int max);
+    static int randomizeSeed(int max);
 
-	// STATIC CLASS ATTRIBUTE
-	static unsigned m_seed;
+// STATIC CLASS ATTRIBUTE
+    static unsigned m_seed;
 };
 
 #endif /* DECK_H_ */

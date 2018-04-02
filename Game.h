@@ -1,120 +1,122 @@
 /*
- * Game.h
- *
- *  Created on: 11 de jun. de 2016
- *      Author: evilchuck
- */
+* Game.h
+*
+*  Created on: 11 de jun. de 2016
+*      Author: EvilChuck
+*/
 
 #ifndef GAME_H_
 #define GAME_H_
+
 #include "Deck.h"
 #include "Stack.h"
 #include "Board.h"
 #include <iostream>
 #include <string>
+
 using namespace std;
 
-// DESCRIPTION:	La clase Game, gestiona el tablero, así como las pilas de cada
-//				palo y las pilas para robar cartas.
-//				Al realizar una acción, la clase Game puede preguntar al
-//				usuario, si el usuario se equivoca o intenta realizar un
-//				movimiento ilegal, devolverá un mensaje de aviso y no
-//				hará el movimiento
 
-// INVARIANT:	Los atributos de las clases Stack y Board deben de cumplir
-//				sus INVARIANTES, m_nMoves y a_abCartas deben de ser positivos
+// DESCRIPTION:	Game class manages the layout as well the stacks of each
+//              club and stacks of each hand.
+//              When doing a move, the class can ask to the user.
+//              If the user tries a wrong and/or illegal move, it'll return
+//              a warning and won't commit the action.
+
+// INVARIANT:	Every object must agree its INVARIANT as well as
+//              m_nMoves and m_openCards must be positives integers.
 
 class Game {
 
 public:
 
-	// CONSTRUCTORS
+// CONSTRUCTORS
 
-	// PRE:  --
-	// POST: --
-	Game();
+// PRE: --
+// POST: --
+    Game();
 
-	// PRE:  --
-	// POST: --
-	Game(const Deck &deck, const int &open);
-
-
-	// SETTERS (ACCIONES DEL JUEGO)
-
-	// PRE:  --
-	// POST: abre cartas
-	void openCard();
-
-	// PRE:  --
-	// POST: mueve una carta de la mano al tablero
-	void hand2board();
-
-	// PRE:  --
-	// POST: mueve una carta de la mano al montón de su palo
-	void hand2club();
-
-	// PRE:  --
-	// POST: mueve una o mas cartas dentro del tablero
-	void withinBoard();
-
-	// PRE:  --
-	// POST: mueve una carta del tablero al montón de su palo
-	void board2club();
-
-	// PRE:  --
-	// POST: mueve una carta de un montón al tablero
-	void club2board();
+// PRE: --
+// POST: --
+    Game(const Deck &deck, const int &open);
 
 
-	// GETTERS
+// SETTERS (GAME ACTIONS)
 
-	// PRE:  --
-	// POST: devuelve si el juego ha finalizado
-	bool isFinished() const;
+// PRE: --
+// POST: open cards
+    void openCard();
 
-	// PRE:  --
-	// POST: devuelve el número de jugadas ya realizadas
-	int getMoves() const;
+// PRE: --
+// POST: moves a card from hand to the board
+    void hand2board();
 
-	// PRE:  --
-	// POST: devuelve la puntuación
-	int getScore() const;
+// PRE: --
+// POST: moves a card from hand to its club stack
+    void hand2club();
+
+// PRE: --
+// POST: moves one or more cards within the table
+    void withinBoard();
+
+// PRE: --
+// POST: moves a card from the board to its club stack
+    void board2club();
+
+// PRE: --
+// POST: moves a card from its club stack back to the table
+    void club2board();
 
 
-	// FLUX OPERATORS
+// GETTERS
 
-	// PRE:  --
-	// POST: muestra las cartas descartadas,
-	// POST: las pilas, el tablero y las estadísticas del juego
-	friend ostream &operator<<(ostream &o, const Game &g);
+// PRE: --
+// POST: returns if the game is finished
+    bool isFinished() const;
+
+// PRE: --
+// POST: returns the numbers of moves already made
+    int getMoves() const;
+
+// PRE: --
+// POST: returns the score
+    int getScore() const;
+
+
+// FLUX OPERATORS
+
+// PRE: --
+// POST: shows the discarded cards, the stacks, the table
+//       and game statistics
+    friend ostream &operator<<(ostream &o, const Game &g);
 
 private:
 
-	// CONSTANTS
-	static const int _MAX_CARDS = 52;
+// CONSTANTS
+    static const int _MAX_CARDS = 52;
 
-	static const int _COLS  = 7;
-	static const int _CLUBS = 4;
-	static const int _HANDS = 2;
+    static const int _COLS = 7;
+    static const int _CLUBS = 4;
+    static const int _HANDS = 2;
 
-	static const int _POINTS[5];
+    static const int _POINTS[5];
 
-	static const char _SEP = ',';
-	static const string _MOVEMENT_MENU[11];
-	static const string _STATUS_MENU[9];
+    static const char _SEP = ',';
+    static const string _MOVEMENT_MENU[11];
+    static const string _STATUS_MENU[9];
 
 
-	// ATTRIBUTES
-	Stack m_hands[_HANDS];
-	Stack m_clubs[_CLUBS];
+// ATTRIBUTES
+    Stack m_hands[_HANDS];
+    Stack m_clubs[_CLUBS];
 
-	Board m_board;
+    Board m_board;
 
-	int m_nMoves;
-	int m_score;
-	int m_openCards;
+    int m_nMoves;
+    int m_score;
+    int m_openCards;
 
-	string m_lastCards;
+    string m_lastCards;
 };
 
 #endif /* GAME_H_ */
