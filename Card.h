@@ -13,8 +13,8 @@
 
 using namespace std;
 
-// DESCRIPTION:	Class that saves the club and number of the card
-// 				and if it's visible.
+// DESCRIPTION: Class that saves the club and number of the card
+//              and if it's visible.
 
 // INVARIANT: m_club >= 0 && m_club <= 3
 // INVARIANT: m_number >= 0 && m_number <= 12
