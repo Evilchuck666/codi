@@ -21,7 +21,7 @@ Stack::~Stack() {
 }
 
 bool Stack::isEmpty() const {
-    return m_top == NULL;
+    return m_top == nullptr;
 }
 
 int Stack::length() const {
@@ -34,12 +34,11 @@ Card Stack::top() const {
 
 void Stack::push(const Card &c) {
 
-    Node *top = new Node;
+    auto *top = new Node;
     top->value = c;
     top->previous = m_top;
 
     m_top = top;
-
     m_length++;
 }
 
@@ -67,28 +66,19 @@ void Stack::inverseCopy(Stack s) {
 
 void Stack::release() {
 
-    while (!isEmpty()) {
-
+    while (!isEmpty())
         pop();
-    }
 }
 
 Stack &Stack::operator=(const Stack &s) {
 
     clone(s);
-
     return *this;
 }
 
 ostream &operator<<(ostream &o, const Stack &s) {
 
-    if (!s.isEmpty())
-        o << s.top().toString();
-    else
-        o << "  ";
-
-    o << " ";
-
+    o << (!s.isEmpty() ? s.top().toString() : "  ") << " ";
     return o;
 }
 
@@ -98,22 +88,22 @@ void Stack::clone(const Stack &s) {
 
         m_length = s.m_length;
 
-        Node *q = new Node;
+        auto *q = new Node;
         Node *p = s.m_top;
         Node *ant = q;
 
         m_top = ant;
 
         q->value = p->value;
-        q->previous = NULL;
+        q->previous = nullptr;
 
         p = p->previous;
 
-        while (p != NULL) {
+        while (p != nullptr) {
 
             q = new Node;
             q->value = p->value;
-            q->previous = NULL;
+            q->previous = nullptr;
 
             ant->previous = q;
             ant = q;

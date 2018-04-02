@@ -28,10 +28,9 @@ void Deck::initialize() {
 void Deck::fisherYates() {
 
     // Variante Sattolo del algoritmo de Fisher-Yates
-
     for (int k = (_LENGTH - 1); k > 1; k--) {
 
-        int az = randomizeSeed(k - 1);
+        int az = randomizeSeed(static_cast<unsigned int>(k - 1));
 
         Card tmp = m_cardArray[az];
         m_cardArray[az] = m_cardArray[k];
@@ -47,7 +46,7 @@ Deck::Deck() {
     fisherYates();
 }
 
-Deck::Deck(const int &seed) {
+Deck::Deck(const unsigned &seed) {
 
     Deck::plantSeed(seed);
 
@@ -61,15 +60,14 @@ Card Deck::getCard(const int &index) const {
 
 void Deck::plantSeed(const int &seed) {
 
-    m_seed = abs(seed);
-
-    if (m_seed == 0) m_seed++;
+    m_seed = static_cast<unsigned int>(seed);
+    if (!m_seed) m_seed++;
 }
 
-int Deck::randomizeSeed(int max) {
+unsigned Deck::randomizeSeed(unsigned max) {
 
     m_seed = m_seed * 1103515245 + 12345;
-    int res = (m_seed / 32) % 32768;
+    unsigned res = (m_seed / 32) % 32768;
 
     return res % max;
 }

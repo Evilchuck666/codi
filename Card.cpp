@@ -5,6 +5,7 @@
 *      Author: EvilChuck
 */
 
+#include <sstream>
 #include "Card.h"
 
 const char Card::_CLUBS[_N_CLUBS] = {'P', 'c', 'd', 'T'};
@@ -40,17 +41,14 @@ bool Card::isVisible() const {
 }
 
 string Card::toString() const {
+    return (m_visible) ? constructCard() : "**";
+}
 
-    string str = "";
+string Card::constructCard() const {
 
-    if (m_visible) {
-
-        str += _NUMBERS[m_number];
-        str += _CLUBS[m_club];
-
-    } else str += "**";
-
-    return str;
+    ostringstream res;
+    res << _NUMBERS[m_number] << _CLUBS[m_club];
+    return res.str();
 }
 
 

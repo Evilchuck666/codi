@@ -14,7 +14,7 @@ using namespace std;
 
 // PRE: --
 // POST: seed > 0
-void readSteps(int &seed) {
+void readSteps(unsigned &seed) {
 
     do {
         cout << "WRITE A POSITIVE INTEGER: ";
@@ -25,7 +25,7 @@ void readSteps(int &seed) {
 
 // PRE: --
 // POST: open == 1 || open == 2
-void openCards(int &open) {
+void openCards(unsigned &open) {
 
     do {
         cout << "HOW MANY CARDS DO YOU WANT TO OPEN?" << endl;
@@ -68,14 +68,14 @@ void menu(const int &open) {
 //              the game will try to make that action following the rules
 //              and will show another warning if that action cannot be made.
 //              The game finishes when all cards are set to its respective club,
-//              or when the player abandones the game.
+//              or when the player abandons the game.
 //              This game is based on the basic rules of the most popular solitaire
 //              or also known as Klondike.
 
 int main() {
 
-    int seed;
-    int open;
+    unsigned seed;
+    unsigned open;
 
     readSteps(seed);
     openCards(open);
@@ -87,7 +87,7 @@ int main() {
     cout << mainGame << endl;
     menu(open);
 
-    int option;
+    unsigned option;
     cout << "OPTION: ";
     cin >> option;
 

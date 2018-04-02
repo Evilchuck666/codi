@@ -145,7 +145,6 @@ private:
 // PRE: --
 // POST: returns the longest row
     int longestRow() const;
-
 };
 
 #endif /* BOARD_H_ */

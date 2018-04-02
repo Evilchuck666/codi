@@ -26,7 +26,7 @@ public:
 
 // PRE: seed > 0
 // POST: --
-    Deck(const int &seed);
+    explicit Deck(const unsigned &seed);
 
 // GETTERS
 
@@ -62,7 +62,7 @@ private:
 // STATIC CLASS METHODS
     static void plantSeed(const int &seed);
 
-    static int randomizeSeed(int max);
+    static unsigned randomizeSeed(unsigned max);
 
 // STATIC CLASS ATTRIBUTE
     static unsigned m_seed;

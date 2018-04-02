@@ -111,33 +111,30 @@ int Board::getLength(const int &col) const {
 
 bool Board::pushCard(const Card &c, const int &col) {
 
-    if (m_length[col] < m_maxLength[col]) {
+    bool continuePush = false;
+    int index = 0;
 
-        if (m_length[col] > 0) {
+    if (m_length[col] < m_maxLength[col] && m_length[col] > 0) {
 
-            Card previousCard = m_board[col][m_length[col] - 1];
+        Card previousCard = m_board[col][m_length[col] - 1];
 
-            if (c < previousCard) {
+        if (c < previousCard) {
 
-                m_board[col][m_length[col]] = c;
-                m_length[col]++;
-
-            } else return false;
-
-        } else {
-
-            if (c.getNumber() == 12) {
-
-                m_board[col][0] = c;
-                m_length[col]++;
-
-            } else
-                return false;
+            continuePush = true;
+            index = m_length[col];
         }
+    } else {
 
-    } else return false;
+        if (m_length[col] == 0 && c.getNumber() == 12)
+            continuePush = true;
+    }
 
-    return true;
+    if (continuePush) {
+
+        m_board[col][index] = c;
+        m_length[col]++;
+    }
+    return continuePush;
 }
 
 bool Board::popCard(const int &col, bool &turned) {
@@ -153,7 +150,6 @@ bool Board::popCard(const int &col, bool &turned) {
         m_board[col][m_length[col] - 1].turn();
         turned = true;
     }
-
     return true;
 }
 
@@ -239,6 +235,5 @@ int Board::longestRow() const {
         if (m_length[i] > max)
             max = m_length[i];
     }
-
     return max;
 }

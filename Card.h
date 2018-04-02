@@ -86,9 +86,7 @@ private:
 // CONSTANTS
     static const int _N_CLUBS = 4;
     static const int _N_NUMBERS = 13;
-
     static const int _CH_COL = 3;
-
     static const char _CLUBS[_N_CLUBS];
     static const char _NUMBERS[_N_NUMBERS];
 
@@ -98,6 +96,9 @@ private:
     int m_number;
     bool m_visible;
     bool m_colour;
+
+// PRIVATE METHODS
+    string constructCard() const;
 };
 
 #endif /* CARD_H_ */
