@@ -118,5 +118,4 @@ private:
 
     string m_lastCards;
 };
-
 #endif /* GAME_H_ */

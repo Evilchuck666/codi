@@ -107,5 +107,4 @@ private:
 // POST: clones s to this
     void clone(const Stack &s);
 };
-
 #endif /* STACK_H_ */

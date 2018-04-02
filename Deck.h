@@ -67,5 +67,4 @@ private:
 // STATIC CLASS ATTRIBUTE
     static unsigned m_seed;
 };
-
 #endif /* DECK_H_ */

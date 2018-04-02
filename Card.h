@@ -100,5 +100,4 @@ private:
 // PRIVATE METHODS
     string constructCard() const;
 };
-
 #endif /* CARD_H_ */
