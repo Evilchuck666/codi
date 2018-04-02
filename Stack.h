@@ -1,109 +1,109 @@
 /*
- * Pila.h
+ * Stack.h
  *
  *  Created on: 10 de jun. de 2016
  *      Author: evilchuck
  */
 
-#ifndef PILA_H_
-#define PILA_H_
-#include "Carta.h"
+#ifndef STACK_H_
+#define STACK_H_
+#include "Card.h"
 #include <ostream>
 using namespace std;
 
-// DESCRIPCIÓN:	Estructura básica de datos, que va añadiendo
+// DESCRIPTION:	Estructura básica de datos, que va añadiendo
 //				o quitando cartas del montón (tipo LIFO; Last In First Out)
 
-// INVARIANTE:	a_largo >= 0 y a_cima debe cumplir su INVARIANTE
+// INVARIANT:	m_length >= 0 y m_top debe cumplir su INVARIANTE
 
-class Pila {
+class Stack {
 
 public:
 
-	// CONSTRUCTORES
+	// CONSTRUCTORS
 
 	// PRE:  --
 	// POST: --
-	Pila();
+	Stack();
 
 	// PRE:  --
 	// POST: copia los atributos de s al objeto actual
-	Pila(const Pila &p);
+	Stack(const Stack &p);
 
 
 	// DESTRUCTOR
 
 	// PRE:  --
-	// POST: a_largo = 0 y a_cima apunta a NULO
-	virtual ~Pila();
+	// POST: m_length = 0 y m_top apunta a NULO
+	virtual ~Stack();
 
 
-	// MÉTODOS CONSULTORES
+	// GETTERS
 
 	// PRE:  --
 	// POST: devuelve si la pila está vacía
-	bool vacio() const;
+	bool isEmpty() const;
 
 	// PRE:  --
 	// POST: devuelve el número de cartas acumalada a la pila
-	int largo() const;
+	int length() const;
 
 	// PRE:  --
-	// POST: devuelve la última carta, la que está en la cima
-	Carta cima() const;
+	// POST: devuelve la última carta, la que está en la top
+	Card top() const;
 
-	// MÉTODOS MODIFICADORES
+	// SETTERS
 
 	// PRE:  --
 	// POST: Añade c a la pila
-	void apilar(const Carta &c);
+	void push(const Card &c);
 
 	// PRE:  --
 	// POST: retira la carta superior de la pila
-	void retirar();
+	void pop();
 
 	// PRE:  --
 	// POST: hace una copia inversa de s
-	void copInv(Pila s);
+	void inverseCopy(Stack s);
 
 	// PRE:  --
 	// POST: borra de la pila todas las cartas
-	void liberar();
+	void release();
 
 
-	// OPERADORES
+	// OPERATORS
 
 	// PRE:  --
 	// POST: asigna los atributos de s al objeto actual
-	Pila &operator=(const Pila &s);
+	Stack &operator=(const Stack &s);
 
-	// OPERADORES DE FLUJO
+	// FLUX OPERATORS
 
 	// PRE:  --
 	// POST: muestra la última carta
-	friend ostream &operator<<(ostream &o, const Pila &s);
+	friend ostream &operator<<(ostream &o, const Stack &s);
 
 private:
 
-	// INVARIANTE:	valor debe cumplir la INVARIANTE de Carta
-	//				y ant debe apuntar a otro Nodo válido,
+	// INVARIANT:	value debe cumplir la INVARIANTE de Card
+	//				y previous debe apuntar a otro Node válido,
 	//				en caso de ser el último nodo de la pila, apunta a NULL
-	struct Nodo {
+	struct Node {
 
-		Carta valor;
-		Nodo *ant;
+		Card value;
+		Node *previous;
 	};
 
-	// ATRIBUTOS
-	Nodo *a_cima;
+	// ATTRIBUTES
+	Node *m_top;
 
-	int a_largo;
+	int m_length;
 
-	// MÉTODOS PRIVADOS
+	// PRIVATE METHODS
 
 	// PRE:  --
 	// POST: hace una copia exacta de s, respetando el orden de los nodos
-	void clonar(const Pila &s);
+	void clone(const Stack &s);
 };
 
-#endif /* PILA_H_ */
+#endif /* STACK_H_ */

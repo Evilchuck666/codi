@@ -7,45 +7,45 @@
 //============================================================================
 
 #include <iostream>
-#include "Baraja.h"
-#include "Juego.h"
+#include "Deck.h"
+#include "Game.h"
 using namespace std;
 
 // PRE:  --
 // POST: sem > 0
-void leerPasos(int &sem) {
+void readSteps(int &seed) {
 
 	do
 	{
 		cout << "ENTRA UNA LLAVOR POSITIVA: ";
-		cin  >> sem;
+		cin  >> seed;
 
-	} while (sem <= 0);
+	} while (seed <= 0);
 }
 
 // PRE:  --
-// POST: abrir == 1 || abrir == 2
-void abrirCartas(int &abrir) {
+// POST: open == 1 || open == 2
+void openCards(int &open) {
 
 	do {
 
 		cout << "QUANTES CARTES VOLS OBRIR?" << endl;
 		cout << "1.- D'UNA EN UNA"           << endl;
 		cout << "2.- DE TRES EN TRES"        << endl;
-		cin  >> abrir;
+		cin  >> open;
 
-	} while (!(abrir > 0 && abrir < 3));
+	} while (!(open > 0 && open < 3));
 
-	if (abrir == 2) abrir = 3;
+	if (open == 2) open = 3;
 }
 
 // PRE:  --
 // POST: --
-void menu(const int &abrir) {
+void menu(const int &open) {
 
 	cout << "MENU" << endl;
 
-	if (abrir == 1)
+	if (open == 1)
 		cout << "1. OBRIR UNA CARTA (O TORNAR A COMENCAR)" << endl;
 	else
 		cout << "1. OBRIR TRES CARTES (O TORNAR A COMENCAR)" << endl;
@@ -60,7 +60,7 @@ void menu(const int &abrir) {
 }
 
 
-// DESCRIPCION: Lee una semilla de valor positivo, immediatamente pide
+// DESCRIPTION: Lee una plantSeed de value positivo, immediatamente pide
 // 				si quieres destapar las cartas de una en una o de tres en tres.
 //				Una vez introducidos estos datos, empieza el juego, mostrandote
 //				primero el estado del tablero y mostrando el menú de opciones.
@@ -75,52 +75,52 @@ void menu(const int &abrir) {
 
 int main() {
 
-	int sem;
-	int abrir;
+	int seed;
+	int open;
 
-	leerPasos(sem);
-	abrirCartas(abrir);
+	readSteps(seed);
+	openCards(open);
 
-	Baraja bar(sem);
+	Deck mainDeck(seed);
 
-	Juego juego(bar, abrir);
+	Game mainGame(mainDeck, open);
 
-	cout << juego << endl;
-	menu(abrir);
+	cout << mainGame << endl;
+	menu(open);
 
-	int opcion;
-	cout << "OPCIO: ";
-	cin  >> opcion;
+	int option;
+	cout << "OPTION: ";
+	cin  >> option;
 
-	while (opcion != 0 && !juego.acabado()) {
+	while (option != 0 && !mainGame.isFinished()) {
 
-		if      (opcion == 1) juego.abrirCarta();
-		else if (opcion == 2) juego.manTablero();
-		else if (opcion == 3) juego.manoAlPalo();
-		else if (opcion == 4) juego.tablAlTabl();
-		else if (opcion == 5) juego.tablAlPalo();
-		else if (opcion == 6) juego.paloAlTabl();
-		else if (opcion == 9) menu(abrir);
+		if      (option == 1) mainGame.openCard();
+		else if (option == 2) mainGame.hand2board();
+		else if (option == 3) mainGame.hand2club();
+		else if (option == 4) mainGame.withinBoard();
+		else if (option == 5) mainGame.board2club();
+		else if (option == 6) mainGame.club2board();
+		else if (option == 9) menu(open);
 		else {
 
-			cout << "OPCIO NO DEFINIDA " << opcion << endl;
-			menu(abrir);
+			cout << "OPTION NO DEFINIDA " << option << endl;
+			menu(open);
 		}
 
-		if (opcion != 9) cout << juego << endl;
+		if (option != 9) cout << mainGame << endl;
 
-		if (!juego.acabado()) {
+		if (!mainGame.isFinished()) {
 
-			cout << "OPCIO: ";
-			cin  >> opcion;
+			cout << "OPTION: ";
+			cin  >> option;
 		}
 	}
 
-	if (!juego.acabado())
+	if (!mainGame.isFinished())
 		cout << "PARTIDA ABANDONADA" << endl;
 	else {
-		cout << "PARTIDA GUANYADA AMB " << juego.getJugadas()    << " JUGADES";
-		cout << " AMB UN TOTAL DE "     << juego.getPuntuacion() << " PUNTS" << endl;
+		cout << "PARTIDA GUANYADA AMB " << mainGame.getMoves()    << " JUGADES";
+		cout << " AMB UN TOTAL DE "     << mainGame.getScore() << " PUNTS" << endl;
 	}
 
 	return 0;
