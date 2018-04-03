@@ -36,7 +36,7 @@ public:
 // DESTRUCTOR
 
 // PRE: --
-// POST: m_length = 0 and m_top points to NULL
+// POST: m_length = 0 and m_top points to nullptr
     virtual ~Stack();
 
 
@@ -89,7 +89,7 @@ private:
 
 // INVARIANT: value must agree its Card INVARIANT
 //            and previous must point to another valid Node,
-//            if it is the last Node, then previous points to NULL
+//            if it is the last Node, then previous points to nullptr
     struct Node {
 
         Card value;

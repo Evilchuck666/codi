@@ -56,9 +56,9 @@ void Game::openCard() {
 
     if (!m_hands[0].isEmpty()) {
 
-        int nCartas = 0;
+        int nCards = 0;
 
-        while (!m_hands[0].isEmpty() && nCartas < m_openCards) {
+        while (!m_hands[0].isEmpty() && nCards < m_openCards) {
 
             Card tmp = m_hands[0].top();
             tmp.turn();
@@ -69,25 +69,17 @@ void Game::openCard() {
             m_hands[1].push(tmp);
             m_hands[0].pop();
 
-            nCartas++;
+            nCards++;
         }
-        m_nMoves++;
-        if (m_nMoves % 10 == 0) m_score -= _POINTS[0];
+    } else if (!m_hands[1].isEmpty()) {
 
-    } else {
+        m_hands[0].inverseCopy(m_hands[1]);
+        m_hands[1].release();
 
-        if (!m_hands[1].isEmpty()) {
-
-            m_hands[0].inverseCopy(m_hands[1]);
-            m_hands[1].release();
-            m_nMoves++;
-
-            if (m_openCards == 1) m_score -= _POINTS[4];
-            else                  m_score -= _POINTS[2];
-
-            if (m_nMoves % 10 == 0) m_score -= _POINTS[0];
-        }
+        m_score -= _POINTS[(m_openCards == 1 ? 4 : 2)];
     }
+    m_nMoves++;
+    if (m_nMoves % 10 == 0) m_score -= _POINTS[0];
 }
 
 void Game::hand2board() {
@@ -105,9 +97,9 @@ void Game::hand2board() {
             cout << _MOVEMENT_MENU[1] << (colD + 1) << endl;
         else {
 
-            Card dest = m_hands[1].top();
+            Card topCard = m_hands[1].top();
 
-            if (!m_board.pushCard(dest, colD))
+            if (!m_board.pushCard(topCard, colD))
                 cout << _MOVEMENT_MENU[1] << (colD + 1) << endl;
             else {
                 m_hands[1].pop();
@@ -122,83 +114,80 @@ void Game::hand2board() {
 
 void Game::hand2club() {
 
+    bool doClubbing = false;
+
     if (m_hands[1].isEmpty())
         cout << _MOVEMENT_MENU[2] << endl;
     else {
 
         Card desc = m_hands[1].top();
-        int cima = desc.getClub();
+        int top = desc.getClub();
 
-        if (m_clubs[cima].isEmpty()) {
+        if (m_clubs[top].isEmpty()) {
 
             if (desc.getNumber() != 0)
                 cout << _MOVEMENT_MENU[3] << endl;
-            else {
-
-                m_clubs[cima].push(desc);
-                m_hands[1].pop();
-                m_nMoves++;
-                m_score += _POINTS[2];
-
-                if (m_nMoves % 10 == 0) m_score -= _POINTS[0];
-            }
+            else
+                doClubbing = true;
         } else {
 
-            Card cimPalo = m_clubs[cima].top();
+            Card topCard = m_clubs[top].top();
 
-            if (desc > cimPalo) {
-
-                m_clubs[cima].push(desc);
-                m_hands[1].pop();
-                m_nMoves++;
-                m_score += _POINTS[2];
-
-                if (m_nMoves % 10 == 0) m_score -= _POINTS[0];
-
-            } else
+            if (desc > topCard)
+                doClubbing = true;
+            else
                 cout << _MOVEMENT_MENU[3] << endl;
+        }
+
+        if (doClubbing) {
+
+            m_clubs[top].push(desc);
+            m_hands[1].pop();
+            m_nMoves++;
+            m_score += _POINTS[2];
+
+            if (m_nMoves % 10 == 0) m_score -= _POINTS[0];
         }
     }
 }
 
 void Game::withinBoard() {
 
-    int colO, filaO;
+    int srcCol, srcRow;
     cout << _MOVEMENT_MENU[4];
-    cin  >> colO >> filaO;
-    colO--; filaO--;
+    cin >> srcCol >> srcRow;
+    srcCol--;
+    srcRow--;
 
-    if (colO  < 0 || colO  > m_board.maxCol() ||
-        filaO < 0 || filaO > m_board.getLength(colO)) {
+    if (srcCol < 0 || srcCol > m_board.maxCol() || srcRow < 0 || srcRow > m_board.getLength(srcCol)) {
 
             cout << _MOVEMENT_MENU[6] << endl;
-
     } else {
 
-        bool posValid = m_board.getLength(colO) > filaO;
-        bool visible  = m_board.getCard(colO, filaO).isVisible();
+        bool posValid = m_board.getLength(srcCol) > srcRow;
+        bool visible = m_board.getCard(srcCol, srcRow).isVisible();
 
         if (!visible || !posValid)
             cout << _MOVEMENT_MENU[6] << endl;
         else {
 
-            int colD;
+            int dstCol;
             cout << _MOVEMENT_MENU[5];
-            cin  >> colD;
-            colD--;
+            cin >> dstCol;
+            dstCol--;
 
-            if (colD < 0 || colD > m_board.maxCol())
-                cout << _MOVEMENT_MENU[1] << (colD + 1) << endl;
+            if (dstCol < 0 || dstCol > m_board.maxCol())
+                cout << _MOVEMENT_MENU[1] << (dstCol + 1) << endl;
             else {
 
-                bool volteado = false;
+                bool turned = false;
 
-                if (!m_board.moveCard(colO, filaO, colD, volteado))
-                    cout << _MOVEMENT_MENU[1] << (colD + 1) << endl;
+                if (!m_board.moveCard(srcCol, srcRow, dstCol, turned))
+                    cout << _MOVEMENT_MENU[1] << (dstCol + 1) << endl;
                 else {
 
                     m_nMoves++;
-                    if (volteado) m_score += _POINTS[1];
+                    if (turned) m_score += _POINTS[1];
 
                     if (m_nMoves % 10 == 0) m_score -= _POINTS[0];
                 }
@@ -209,82 +198,80 @@ void Game::withinBoard() {
 
 void Game::board2club() {
 
-    int colO;
+    int srcCol;
     cout << _MOVEMENT_MENU[7];
-    cin  >> colO;
-    colO--;
+    cin >> srcCol;
+    srcCol--;
 
-    if (colO < 0 || colO > m_board.maxCol())
+    if (srcCol < 0 || srcCol > m_board.maxCol())
         cout << _MOVEMENT_MENU[2] << endl;
     else {
 
-        bool volteado = false;
+        bool doClubbing = false;
+        bool turned = false;
 
-        int filaO = (m_board.getLength(colO) - 1);
+        int srcRow = (m_board.getLength(srcCol) - 1);
 
-        Card palo = m_board.getCard(colO, filaO);
+        Card club = m_board.getCard(srcCol, srcRow);
 
-        if (m_clubs[palo.getClub()].isEmpty()) {
+        if (m_clubs[club.getClub()].isEmpty()) {
 
-            if (palo.getNumber() != 0)
+            if (club.getNumber() != 0)
                 cout << _MOVEMENT_MENU[8] << endl;
-            else {
-
-                m_board.popCard(colO, volteado);
-                m_clubs[palo.getClub()].push(palo);
-                m_nMoves++;
-                m_score += _POINTS[2];
-
-                if (m_nMoves % 10 == 0) m_score -= _POINTS[0];
-            }
+            else
+                doClubbing = true;
         } else {
 
-            if (palo > m_clubs[palo.getClub()].top()) {
-
-                m_board.popCard(colO, volteado);
-                m_clubs[palo.getClub()].push(palo);
-                m_nMoves++;
-                m_score += _POINTS[2];
-
-                if (m_nMoves % 10 == 0) m_score -= _POINTS[0];
-
-            } else
+            if (club > m_clubs[club.getClub()].top())
+                doClubbing = true;
+            else
                 cout << _MOVEMENT_MENU[8] << endl;
         }
-        if (volteado) m_score += _POINTS[1];
+
+        if (doClubbing) {
+
+            m_board.popCard(srcCol, turned);
+            m_clubs[club.getClub()].push(club);
+            m_nMoves++;
+            m_score += _POINTS[2];
+
+            if (m_nMoves % 10 == 0) m_score -= _POINTS[0];
+        }
+
+        if (turned) m_score += _POINTS[1];
     }
 }
 
 void Game::club2board() {
 
-    int palo;
+    int club;
     cout << _MOVEMENT_MENU[9];
-    cin  >> palo;
-    palo--;
+    cin >> club;
+    club--;
 
-    if (palo < 0 || palo >= _CLUBS)
+    if (club < 0 || club >= _CLUBS)
         cout << _MOVEMENT_MENU[10] << endl;
     else {
 
-        if (m_clubs[palo].isEmpty())
+        if (m_clubs[club].isEmpty())
             cout << _MOVEMENT_MENU[10] << endl;
         else {
 
-            Card mov = m_clubs[palo].top();
+            Card move = m_clubs[club].top();
 
-            int colD;
+            int dstCol;
             cout << _MOVEMENT_MENU[0];
-            cin  >> colD;
-            colD--;
+            cin >> dstCol;
+            dstCol--;
 
-            if (colD < 0 || colD > m_board.maxCol())
-                cout << _MOVEMENT_MENU[1] << (colD + 1) << endl;
+            if (dstCol < 0 || dstCol > m_board.maxCol())
+                cout << _MOVEMENT_MENU[1] << (dstCol + 1) << endl;
             else {
 
-                if (!m_board.pushCard(mov, colD))
-                    cout << _MOVEMENT_MENU[1] << (colD + 1) << endl;
+                if (!m_board.pushCard(move, dstCol))
+                    cout << _MOVEMENT_MENU[1] << (dstCol + 1) << endl;
                 else {
-                    m_clubs[palo].pop();
+                    m_clubs[club].pop();
                     m_nMoves++;
                     m_score -= _POINTS[3];
 
@@ -296,13 +283,7 @@ void Game::club2board() {
 }
 
 bool Game::isFinished() const {
-
-    bool acabado = m_clubs[0].length() == 13 &&
-            m_clubs[1].length() == 13 &&
-            m_clubs[2].length() == 13 &&
-            m_clubs[3].length() == 13;
-
-    return acabado;
+    return m_clubs[0].length() == 13 && m_clubs[1].length() == 13 && m_clubs[2].length() == 13 && m_clubs[3].length() == 13;
 }
 
 int Game::getMoves() const {
