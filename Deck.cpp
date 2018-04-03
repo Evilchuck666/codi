@@ -15,19 +15,14 @@ void Deck::initialize() {
 
     int k = 0;
 
-    for (int i = (_CLUBS - 1); i >= 0; i--) {
-
-        for (int j = (_NUMBERS - 1); j >= 0; j--) {
-
-            m_cardArray[k] = Card(i,j);
-            k++;
-        }
-    }
+    for (int i = (_CLUBS - 1); i >= 0; i--)
+        for (int j = (_NUMBERS - 1); j >= 0; j--)
+            m_cardArray[k++] = Card(i, j);
 }
 
 void Deck::fisherYates() {
 
-    // Variante Sattolo del algoritmo de Fisher-Yates
+    // Sattolo fork from Fisher-Yates algorithm
     for (int k = (_LENGTH - 1); k > 1; k--) {
 
         int az = randomizeSeed(static_cast<unsigned int>(k - 1));

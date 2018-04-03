@@ -102,8 +102,8 @@ private:
     static const int _POINTS[5];
 
     static const char _SEP = ',';
-    static const string _MOVEMENT_MENU[11];
-    static const string _STATUS_MENU[9];
+    static const char *_MOVEMENT_MENU[11];
+    static const char *_STATUS_MENU[9];
 
 
 // ATTRIBUTES

@@ -40,8 +40,6 @@ private:
     static const int _CLUBS = 4;
     static const int _NUMBERS = 13;
     static const int _LENGTH = 52;
-    static const int _BOARD_CARDS = 28;
-    static const int _HAND_CARDS = 24;
 
 
 // ATTRIBUTES

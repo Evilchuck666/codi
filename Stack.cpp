@@ -8,7 +8,7 @@
 #include "Stack.h"
 
 Stack::Stack() {
-    m_top = NULL;
+    m_top = nullptr;
     m_length = 0;
 }
 

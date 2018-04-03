@@ -99,7 +99,6 @@ private:
 
 // CONSTANTS
     static const int _DEFAULT_COLUMNS = 7;
-    static const int _MAX_ROWS = 19;
     static const int _CLUB_CARDS = 13;
 
 
@@ -110,7 +109,6 @@ private:
     int *m_maxLength;
 
     int m_cols;
-
     int m_nCards;
 
 

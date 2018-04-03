@@ -43,11 +43,8 @@ void Board::fillMatrix(const Deck &deck) {
 
         int max = m_length[(m_cols - 1) - i];
 
-        for (int j = 0; j < max; j++) {
-
-            m_board[j + i][i] = deck.getCard(m_nCards);
-            m_nCards++;
-        }
+        for (int j = 0; j < max; j++)
+            m_board[j + i][i] = deck.getCard(m_nCards++);
     }
 }
 
